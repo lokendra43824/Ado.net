@@ -28,9 +28,9 @@ namespace EmployeePayrollService
                         {
                             employeePayroll.EmployeeID = dr.GetInt32(0);
                             employeePayroll.EmployeeName = dr.GetString(1);
-                            employeePayroll.StartDate = dr.GetString(2);
-                            employeePayroll.Gender = dr.GetString(3);
-                            employeePayroll.Address = dr.GetString(4);
+                            employeePayroll.StartDate = dr.GetDateTime(3);
+                            employeePayroll.Gender = dr.GetString(4);
+                            employeePayroll.Address = dr.GetString(6);
                             employeePayroll.PhoneNumber = dr.GetString(5);
 
                             Console.WriteLine(employeePayroll.EmployeeID + "  " + employeePayroll.EmployeeName + "  " + employeePayroll.StartDate + "  " + employeePayroll.Gender + "  " + employeePayroll.Address + "  " + employeePayroll.PhoneNumber);
@@ -46,7 +46,7 @@ namespace EmployeePayrollService
             }
             catch (Exception e)
             {
-                throw new Exception(e.Message);
+                Console.WriteLine(e.Message);
             }
             finally
             {

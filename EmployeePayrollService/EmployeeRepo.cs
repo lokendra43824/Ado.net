@@ -16,7 +16,7 @@ namespace EmployeePayrollService
                 EmployeePayroll employeePayroll = new EmployeePayroll();
                 using (this.connection)
                 {
-                    string query = @"select * from Employee_payroll";
+                    string query = @"select name,basicPay from Employee_payroll;";
                     SqlCommand cnd = new SqlCommand(query, this.connection);
                     this.connection.Open();
 
@@ -26,14 +26,17 @@ namespace EmployeePayrollService
                     {
                         while (dr.Read())
                         {
-                            employeePayroll.EmployeeID = dr.GetInt32(0);
-                            employeePayroll.EmployeeName = dr.GetString(1);
-                            employeePayroll.StartDate = dr.GetDateTime(3);
-                            employeePayroll.Gender = dr.GetString(4);
-                            employeePayroll.Address = dr.GetString(6);
-                            employeePayroll.PhoneNumber = dr.GetString(5);
+                            //employeePayroll.EmployeeID = dr.GetInt32(0);
+                           // employeePayroll.EmployeeName = dr.GetString(1);
+                           // employeePayroll.StartDate = dr.GetDateTime(3);
+                            employeePayroll.EmployeeName = dr.GetString(0);
+                            employeePayroll.BasicPay = Convert.ToDouble(dr.GetDecimal(1));
 
-                            Console.WriteLine(employeePayroll.EmployeeID + "  " + employeePayroll.EmployeeName + "  " + employeePayroll.StartDate + "  " + employeePayroll.Gender + "  " + employeePayroll.Address + "  " + employeePayroll.PhoneNumber);
+                            //employeePayroll.Address = dr.GetString(6);
+                            // employeePayroll.PhoneNumber = dr.GetString(5);
+
+                            //Console.WriteLine(employeePayroll.EmployeeID + "  " + employeePayroll.EmployeeName + "  " + employeePayroll.StartDate + "  " + employeePayroll.Gender + "  " + employeePayroll.Address + "  " + employeePayroll.PhoneNumber);
+                            Console.WriteLine(employeePayroll.EmployeeName + " " + employeePayroll.BasicPay);
                             Console.WriteLine("");
                         }
                     }

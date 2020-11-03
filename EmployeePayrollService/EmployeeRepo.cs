@@ -36,7 +36,7 @@ namespace EmployeePayrollService
                             // employeePayroll.PhoneNumber = dr.GetString(5);
 
                             //Console.WriteLine(employeePayroll.EmployeeID + "  " + employeePayroll.EmployeeName + "  " + employeePayroll.StartDate + "  " + employeePayroll.Gender + "  " + employeePayroll.Address + "  " + employeePayroll.PhoneNumber);
-                            Console.WriteLine(employeePayroll.EmployeeName + " " + employeePayroll.BasicPay);
+                            //Console.WriteLine(employeePayroll.EmployeeName + " " + employeePayroll.BasicPay);
                             Console.WriteLine("");
                         }
                     }
@@ -47,15 +47,20 @@ namespace EmployeePayrollService
 
                 }
             }
+          
+       
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
+                throw new Exception(e.Message);
             }
             finally
             {
-                this.connection.Close();
+                connection.Close();
+
             }
         }
+
+
     }
 }
         

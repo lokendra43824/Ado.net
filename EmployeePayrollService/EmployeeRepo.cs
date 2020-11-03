@@ -5,7 +5,7 @@ using System.Data.SqlClient;
 
 public class EmployeeRepo
 {
-    public static string connectionString = @"DESKTOP - NOSTLDQ\LOCALDB#C3EC6438";
+    public static string connectionString = @"Data Source=(localDB)\MSSQLLocalDB;Initial Catalog=PayRollAssignment;Integrated Security=True";
     static SqlConnection connection = new SqlConnection(connectionString);
     public void GetAllEmployee(string query)
     {
@@ -14,8 +14,8 @@ public class EmployeeRepo
             EmployeePayroll employeePayroll = new EmployeePayroll();
             using (connection)
             {
-                // string query = @"select * from Employee_payroll";
-                //  string query= @"select* from Employee_payroll where start_Date between CAST('2019-01-01' as date) and GETDATE()";
+                 
+                // string query= @"select* from Employee_payroll where start_Date between CAST('2019-01-01' as date) and GETDATE()";
                 SqlCommand cnd = new SqlCommand(query, connection);
                 connection.Open();
 
@@ -25,14 +25,14 @@ public class EmployeeRepo
                 {
                     while (dr.Read())
                     {
-                        employeePayroll.id = dr.GetInt32(0);
-                        employeePayroll.name = dr.GetString(1);
-                        employeePayroll.startDate = dr.GetDateTime(2);
-                        employeePayroll.gender = Convert.ToChar(dr.GetString(3));
+                        employeePayroll.EmployeeID = dr.GetInt32(0);
+                        employeePayroll.EmployeeName = dr.GetString(1);
+                        employeePayroll.StartDate = dr.GetDateTime(2);
+                        employeePayroll.Gender = Convert.ToChar(dr.GetString(3));
                         employeePayroll.Address = dr.GetString(4);
-                        employeePayroll.phoneNumber = dr.GetString(5);
+                        employeePayroll.PhoneNumber = dr.GetString(5);
 
-                        Console.WriteLine(employeePayroll.id + "  " + employeePayroll.name + "  " + employeePayroll.startDate + "  " + employeePayroll.gender + "  " + employeePayroll.Address + "  " + employeePayroll.phoneNumber);
+                        Console.WriteLine(employeePayroll.EmployeeID + "  " + employeePayroll.EmployeeName + "  " + employeePayroll.StartDate + "  " + employeePayroll.Gender + "  " + employeePayroll.Address + "  " + employeePayroll.PhoneNumber);
                         Console.WriteLine("");
                     }
                 }
@@ -64,11 +64,11 @@ public class EmployeeRepo
 
                 SqlCommand cnd = new SqlCommand("SpAddEmployeeDetails", connection);
                 cnd.CommandType = CommandType.StoredProcedure;
-                cnd.Parameters.AddWithValue("@EmpName", employee.name);
-                cnd.Parameters.AddWithValue("@StartDate", employee.startDate);
-                cnd.Parameters.AddWithValue("@Gender", employee.gender);
+                cnd.Parameters.AddWithValue("@EmpName", employee.EmployeeName);
+                cnd.Parameters.AddWithValue("@StartDate", employee.StartDate);
+                cnd.Parameters.AddWithValue("@Gender", employee.Gender);
                 cnd.Parameters.AddWithValue("@Address", employee.Address);
-                cnd.Parameters.AddWithValue("@phoneNumber", employee.phoneNumber);
+                cnd.Parameters.AddWithValue("@phoneNumber", employee.PhoneNumber);
                 connection.Open();
 
                 var result = cnd.ExecuteNonQuery();
@@ -96,44 +96,10 @@ public class EmployeeRepo
         }
     }
 
-    public void UpdateEmployeeSalary()
-    {
-        try
-        {
-            //EmployeePayroll employeePayroll = new EmployeePayroll();
-            using (connection)
-            {
-                string query = @"update payments set net_pay=47000 where id=(select id from Employee_payroll where name='venkey'); ";
-                SqlCommand cnd = new SqlCommand(query, connection);
-                connection.Open();
-
-                // this.connection.Open();
-                var result = cnd.ExecuteNonQuery();
-                connection.Close();
-
-                if (result != 0)
-                {
-                    Console.WriteLine("Updated Successfully");
-                }
-                else
-                {
-                    Console.WriteLine("No record found for the given firstName");
-                }
-            }
-        }
-        catch (Exception e)
-        {
-            throw new Exception(e.Message);
-        }
-        finally
-        {
-            connection.Close();
-
-        }
-    }
+   
 
 
-    public bool UpdateEmployeeSalaryUsingStoredProcedure(string name, double salary)
+    public bool UpdateEmployeeAddressUsingStoredProcedure(string name, string address)
     {
         try
         {
@@ -141,9 +107,9 @@ public class EmployeeRepo
             using (connection)
             {
 
-                SqlCommand cnd = new SqlCommand("sp_UpdateSalary", connection);
+                SqlCommand cnd = new SqlCommand("spUpdateSalary", connection);
                 cnd.CommandType = CommandType.StoredProcedure;
-                cnd.Parameters.AddWithValue("@salary", salary);
+                cnd.Parameters.AddWithValue("@address", address);
                 cnd.Parameters.AddWithValue("@name", name);
 
                 connection.Open();

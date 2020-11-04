@@ -9,21 +9,18 @@ namespace EmployeePayrollService
             Console.WriteLine("welcome to employee payroll");
             EmployeeRepo repo = new EmployeeRepo();
             EmployeePayroll employee = new EmployeePayroll();
-            employee.EmployeeName = "lokendra";
-            employee.PhoneNumber = "8919445458";
-            employee.Address = "AndhraPradesh";
-            employee.Department = "BUSINESS";
-            employee.Gender = "M";
-            employee.BasicPay = 30000;
-            employee.Deductions = 500;
-            employee.TaxablePay = 1500;
-            employee.Tax = 2000;
-            employee.NetPay = 50000;
-            employee.City = "TPT";
-            employee.Country = "India";
 
-            repo.GetAllEmployee();
-            repo.UpdateEmployeeSalary();
+            employee.EmployeeName = "harish";
+            employee.StartDate = Convert.ToDateTime("2020-10-01");
+            employee.Gender = 'M';
+            employee.Address = "mumbai";
+            employee.PhoneNumber = "+91 9866528888";
+
+            string query = @"select * from Employee_payroll";
+            repo.GetAllEmployee(query);
+            // repo.UpdateEmployeeAddressUsingStoredProcedure("lokendra","HYD");
+            //repo.AddEmployeeDetailsUsingStoredProcedure(employee);
+            //repo.GetAllSalaries();
         }
     }
 }

@@ -54,7 +54,7 @@ public class EmployeeRepo
         }
     }
 
-    public bool addEmpoyee(EmployeePayroll employee)
+    public bool AddEmployeeDetailsUsingStoredProcedure(EmployeePayroll employee)
     {
         try
         {
@@ -143,7 +143,7 @@ public class EmployeeRepo
     {
         try
         {
-            Payments payments = new Payments();
+            Transaction payments = new Transaction();
             using (connection)
             {
                 string query = @"select * from payments";
@@ -188,38 +188,7 @@ public class EmployeeRepo
     }
 
 
-    public void OperationOnSalaries(string query)
-    {
-        try
-        {
-            Payments payments = new Payments();
-            using (connection)
-            {
+   
 
-                SqlCommand cnd = new SqlCommand(query, connection);
-                connection.Open();
-
-                SqlDataReader dr = cnd.ExecuteReader();
-
-                if (dr.HasRows)
-                {
-                    while (dr.Read())
-                    {
-                        Console.WriteLine(dr.GetString(0) + "  " + dr.GetDecimal(1));
-                    }
-                }
-                connection.Close();
-            }
-        }
-        catch (Exception e)
-        {
-            throw new Exception(e.Message);
-        }
-        finally
-        {
-            connection.Close();
-        }
-
-
-    }
+    
 }

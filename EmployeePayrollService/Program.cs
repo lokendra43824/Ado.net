@@ -10,16 +10,17 @@ namespace EmployeePayrollService
             EmployeeRepo repo = new EmployeeRepo();
             EmployeePayroll employee = new EmployeePayroll();
            
-            employee.EmployeeName = "Dhoni";
+            employee.EmployeeName = "harish";
             employee.StartDate = Convert.ToDateTime("2020-10-01");
             employee.Gender = 'M';
-            employee.Address = "DELHI";
+            employee.Address = "mumbai";
             employee.PhoneNumber = "+91 9866528888";
             
             string query = @"select * from Employee_payroll";
             repo.GetAllEmployee(query);
-            // repo.UpdateEmployeeSalaryUsingStoredProcedure("lokendra","HYD");
-           // repo.addEmpoyee(employee);
+            // repo.UpdateEmployeeAddressUsingStoredProcedure("lokendra","HYD");
+            //repo.AddEmployeeDetailsUsingStoredProcedure(employee);
+            //repo.GetAllSalaries();
         }
     }
 }

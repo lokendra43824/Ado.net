@@ -14,11 +14,8 @@ public class EmployeeRepo
             EmployeePayroll employeePayroll = new EmployeePayroll();
             using (connection)
             {
-<<<<<<< HEAD
                  
-=======
 
->>>>>>> uc_4_to_uc-7
                 // string query= @"select* from Employee_payroll where start_Date between CAST('2019-01-01' as date) and GETDATE()";
                 SqlCommand cnd = new SqlCommand(query, connection);
                 connection.Open();
@@ -100,15 +97,12 @@ public class EmployeeRepo
         }
     }
 
-<<<<<<< HEAD
    
 
 
-=======
 
 
 
->>>>>>> uc_4_to_uc-7
     public bool UpdateEmployeeAddressUsingStoredProcedure(string name, string address)
     {
         try
@@ -152,7 +146,7 @@ public class EmployeeRepo
     {
         try
         {
-            Transaction payments = new Transaction();
+            Transactions payments = new Transactions();
             using (connection)
             {
 
@@ -180,18 +174,16 @@ public class EmployeeRepo
             connection.Close();
         }
 
-<<<<<<< HEAD
 
    
 
     
 }
-=======
          void GetAllSalaries()
         {
             try
             {
-                Transaction payments = new Transaction();
+                Transactions payments = new Transactions();
                 using (connection)
                 {
                     string query = @"select * from payments";
@@ -234,10 +226,46 @@ public class EmployeeRepo
                 connection.Close();
             }
         }
+    public Transactions UpdateEmployeeSalary()
+    {
+        try
+        {
+
+            using (connection)
+            {
+                Transactions payments = new Transactions();
+                string query = @"update payments set payments.net_pay=43500 from payments p inner join Employee_payroll e on p.id=e.id where e.name='lokendra' ";
+                SqlCommand cnd = new SqlCommand(query, connection);
+                connection.Open();
+
+
+                var result = cnd.ExecuteNonQuery();
+                connection.Close();
+
+                if (result != 0)
+                {
+                    payments.net_pay = 43500;
+                    Console.WriteLine("Updated Successfully");
+                }
+                else
+                {
+                    Console.WriteLine("No record found for the given firstName");
+                }
+                return payments;
+            }
+        }
+        catch (Exception e)
+        {
+            throw new Exception(e.Message);
+        }
+        finally
+        {
+            connection.Close();
+
+        }
+    }
 
 
 
 
-
-    } }
->>>>>>> uc_4_to_uc-7
+} 

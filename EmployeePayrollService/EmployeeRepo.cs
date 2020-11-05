@@ -96,6 +96,7 @@ public class EmployeeRepo
             connection.Close();
         }
     }
+<<<<<<< HEAD
 
    
 
@@ -103,6 +104,9 @@ public class EmployeeRepo
 
 
 
+=======
+   
+>>>>>>> uc_Remove_an_employee
     public bool UpdateEmployeeAddressUsingStoredProcedure(string name, string address)
     {
         try
@@ -142,6 +146,7 @@ public class EmployeeRepo
             connection.Close();
         }
     }
+<<<<<<< HEAD
     public void OperationOnSalaries(string query)
     {
         try
@@ -180,6 +185,9 @@ public class EmployeeRepo
     
 }
          void GetAllSalaries()
+=======
+       public void RetrieveAllSalaries()
+>>>>>>> uc_Remove_an_employee
         {
             try
             {
@@ -226,7 +234,11 @@ public class EmployeeRepo
                 connection.Close();
             }
         }
+<<<<<<< HEAD
     public Transactions UpdateEmployeeSalary()
+=======
+    public void DeleteAnEmployee()
+>>>>>>> uc_Remove_an_employee
     {
         try
         {
@@ -234,16 +246,25 @@ public class EmployeeRepo
             using (connection)
             {
                 Transactions payments = new Transactions();
+<<<<<<< HEAD
                 string query = @"update payments set payments.net_pay=43500 from payments p inner join Employee_payroll e on p.id=e.id where e.name='lokendra' ";
+=======
+                string query = @"delete from Employee_payroll where id=9";
+>>>>>>> uc_Remove_an_employee
                 SqlCommand cnd = new SqlCommand(query, connection);
                 connection.Open();
 
 
                 var result = cnd.ExecuteNonQuery();
+<<<<<<< HEAD
+=======
+
+>>>>>>> uc_Remove_an_employee
                 connection.Close();
 
                 if (result != 0)
                 {
+<<<<<<< HEAD
                     payments.net_pay = 43500;
                     Console.WriteLine("Updated Successfully");
                 }
@@ -253,6 +274,19 @@ public class EmployeeRepo
                 }
                 return payments;
             }
+=======
+
+                    Console.WriteLine("Deleted Successfully");
+                }
+                else
+                {
+                    Console.WriteLine("No record found for the given id ");
+                }
+
+            }
+
+
+>>>>>>> uc_Remove_an_employee
         }
         catch (Exception e)
         {
@@ -261,6 +295,14 @@ public class EmployeeRepo
         finally
         {
             connection.Close();
+<<<<<<< HEAD
+=======
+
+        }
+
+
+    }
+>>>>>>> uc_Remove_an_employee
 
         }
     }
@@ -268,4 +310,8 @@ public class EmployeeRepo
 
 
 
+<<<<<<< HEAD
 } 
+=======
+} 
+>>>>>>> uc_Remove_an_employee

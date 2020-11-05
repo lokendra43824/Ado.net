@@ -182,9 +182,52 @@ public class EmployeeRepo
                 connection.Close();
             }
         }
+    public void DeleteAnEmployee()
+    {
+        try
+        {
+
+            using (connection)
+            {
+                Transactions payments = new Transactions();
+                string query = @"delete from Employee_payroll where id=9";
+                SqlCommand cnd = new SqlCommand(query, connection);
+                connection.Open();
+
+
+                var result = cnd.ExecuteNonQuery();
+
+                connection.Close();
+
+                if (result != 0)
+                {
+
+                    Console.WriteLine("Deleted Successfully");
+                }
+                else
+                {
+                    Console.WriteLine("No record found for the given id ");
+                }
+
+            }
+
+
+        }
+        catch (Exception e)
+        {
+            throw new Exception(e.Message);
+        }
+        finally
+        {
+            connection.Close();
+
+        }
+
+
+    }
 
 
 
 
 
-    } 
+} 

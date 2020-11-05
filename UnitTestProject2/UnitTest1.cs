@@ -52,7 +52,6 @@ namespace UnitTestProject2
             }
             //UC6 Operation on Salaries
 
-            //Getting gender wise salaries 
             [TestMethod]
 
             public void GetTheGenderWiseSumOfSalaries()
@@ -72,7 +71,6 @@ namespace UnitTestProject2
                 Assert.AreEqual(expectedSumMale, actualSumMale);
             }
 
-            //Getiing gender wise avg of salaries
             //   [TestMethod]
             public void GetTheGenderWiseAvgOfSalaries()
             {

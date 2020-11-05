@@ -7,7 +7,7 @@ namespace UnitTestProject2
     namespace UnitTestProject1
     {
         [TestClass]
-        public class UnitTest1
+        public class Test
         {
 
             //UC3 Update salary based on name

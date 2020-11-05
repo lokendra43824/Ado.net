@@ -22,7 +22,8 @@ namespace EmployeePayrollService
           // repo.GetAllEmployee(query);
             // repo.UpdateEmployeeAddressUsingStoredProcedure("lokendra","HYD");
             //repo.AddEmployeeDetailsUsingStoredProcedure(employee);
-            repo.RetrieveAllSalaries();
+            //repo.RetrieveAllSalaries();
+            repo.RemoveAnEmployee();
         }
     }
 }

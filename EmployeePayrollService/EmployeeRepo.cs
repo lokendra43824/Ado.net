@@ -183,7 +183,7 @@ public class EmployeeRepo
                 connection.Close();
             }
         }
-    public void DeleteAnEmployee()
+    public void RemoveAnEmployee()
     {
         try
         {

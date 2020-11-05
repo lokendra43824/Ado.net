@@ -19,13 +19,8 @@ namespace EmployeePayrollService
             
 
             string query = @"select * from Employee_payroll";
-<<<<<<< HEAD
-            //repo.GetAllEmployee(query);
-            repo.UpdateEmployeeAddressUsingStoredProcedure("lokendra","HYD");
-=======
           // repo.GetAllEmployee(query);
             // repo.UpdateEmployeeAddressUsingStoredProcedure("lokendra","HYD");
->>>>>>> uc_Remove_an_employee
             //repo.AddEmployeeDetailsUsingStoredProcedure(employee);
             repo.RetrieveAllSalaries();
         }

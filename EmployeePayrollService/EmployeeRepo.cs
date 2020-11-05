@@ -95,10 +95,7 @@ public class EmployeeRepo
             connection.Close();
         }
     }
-
-
-
-
+   
     public bool UpdateEmployeeAddressUsingStoredProcedure(string name, string address)
     {
         try
@@ -138,43 +135,11 @@ public class EmployeeRepo
             connection.Close();
         }
     }
-    public void OperationOnSalaries(string query)
-    {
-        try
-        {
-            Transaction payments = new Transaction();
-            using (connection)
-            {
-
-                SqlCommand cnd = new SqlCommand(query, connection);
-                connection.Open();
-
-                SqlDataReader dr = cnd.ExecuteReader();
-
-                if (dr.HasRows)
-                {
-                    while (dr.Read())
-                    {
-                        Console.WriteLine(dr.GetString(0) + "  " + dr.GetDecimal(1));
-                    }
-                }
-                connection.Close();
-            }
-        }
-        catch (Exception e)
-        {
-            throw new Exception(e.Message);
-        }
-        finally
-        {
-            connection.Close();
-        }
-
-         void GetAllSalaries()
+       public void RetrieveAllSalaries()
         {
             try
             {
-                Transaction payments = new Transaction();
+                Transactions payments = new Transactions();
                 using (connection)
                 {
                     string query = @"select * from payments";
@@ -222,4 +187,4 @@ public class EmployeeRepo
 
 
 
-    } }
+    } 

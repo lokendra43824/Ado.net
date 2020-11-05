@@ -17,10 +17,10 @@ namespace EmployeePayrollService
             employee.PhoneNumber = "+91 9866528888";
 
             string query = @"select * from Employee_payroll";
-            repo.GetAllEmployee(query);
+          // repo.GetAllEmployee(query);
             // repo.UpdateEmployeeAddressUsingStoredProcedure("lokendra","HYD");
             //repo.AddEmployeeDetailsUsingStoredProcedure(employee);
-            //repo.GetAllSalaries();
+            repo.RetrieveAllSalaries();
         }
     }
 }

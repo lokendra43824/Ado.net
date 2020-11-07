@@ -14,7 +14,7 @@ public class EmployeeRepo
             EmployeePayroll employeePayroll = new EmployeePayroll();
             using (connection)
             {
-                 
+
 
                 // string query= @"select* from Employee_payroll where start_Date between CAST('2019-01-01' as date) and GETDATE()";
                 SqlCommand cnd = new SqlCommand(query, connection);
@@ -96,7 +96,7 @@ public class EmployeeRepo
             connection.Close();
         }
     }
-   
+
     public bool UpdateEmployeeAddressUsingStoredProcedure(string name, string address)
     {
         try
@@ -136,53 +136,53 @@ public class EmployeeRepo
             connection.Close();
         }
     }
-       public void RetrieveAllSalaries()
+    public void RetrieveAllSalaries(string query)
+    {
+        try
         {
-            try
+            Transactions payments = new Transactions();
+            using (connection)
             {
-                Transactions payments = new Transactions();
-                using (connection)
+                string query = @"select * from payments";
+                SqlCommand cnd = new SqlCommand(query, connection);
+                connection.Open();
+
+                SqlDataReader dr = cnd.ExecuteReader();
+
+                if (dr.HasRows)
                 {
-                    string query = @"select * from payments";
-                    SqlCommand cnd = new SqlCommand(query, connection);
-                    connection.Open();
-
-                    SqlDataReader dr = cnd.ExecuteReader();
-
-                    if (dr.HasRows)
+                    Console.WriteLine("Id" + " " + "Basic_pay" + " " + "Deductions" + " " + "Taxable_Pay" + " " + "Tax" + " " + "Net_pay" + "\n");
+                    while (dr.Read())
                     {
-                        Console.WriteLine("Id" + " " + "Basic_pay" + " " + "Deductions" + " " + "Taxable_Pay" + " " + "Tax" + " " + "Net_pay" + "\n");
-                        while (dr.Read())
-                        {
-                            payments.id = dr.GetInt32(0);
-                            payments.basicPay = dr.GetDecimal(1);
-                            payments.deductions = dr.GetDecimal(2);
-                            payments.taxable_pay = dr.GetDecimal(3);
-                            payments.tax = dr.GetDecimal(4);
-                            payments.net_pay = dr.GetDecimal(5);
+                        payments.id = dr.GetInt32(0);
+                        payments.basicPay = dr.GetDecimal(1);
+                        payments.deductions = dr.GetDecimal(2);
+                        payments.taxable_pay = dr.GetDecimal(3);
+                        payments.tax = dr.GetDecimal(4);
+                        payments.net_pay = dr.GetDecimal(5);
 
 
-                            Console.WriteLine(payments.id + "  " + payments.basicPay + "  " + payments.deductions + "  " + payments.taxable_pay + " " + payments.tax + "  " + payments.net_pay);
-                            Console.WriteLine("");
-                        }
+                        Console.WriteLine(payments.id + "  " + payments.basicPay + "  " + payments.deductions + "  " + payments.taxable_pay + " " + payments.tax + "  " + payments.net_pay);
+                        Console.WriteLine("");
                     }
-                    else
-                    {
-                        Console.WriteLine("No DAta found");
-                    }
-                    dr.Close();
-                    connection.Close();
                 }
-            }
-            catch (Exception e)
-            {
-                throw new Exception(e.Message);
-            }
-            finally
-            {
+                else
+                {
+                    Console.WriteLine("No DAta found");
+                }
+                dr.Close();
                 connection.Close();
             }
         }
+        catch (Exception e)
+        {
+            throw new Exception(e.Message);
+        }
+        finally
+        {
+            connection.Close();
+        }
+    }
     public void RemoveAnEmployee()
     {
         try
@@ -227,5 +227,6 @@ public class EmployeeRepo
 
     }
 
-        }
+
+}
      

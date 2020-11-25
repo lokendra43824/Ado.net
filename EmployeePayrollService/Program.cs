@@ -8,12 +8,7 @@ namespace EmployeePayrollService
         {
             Console.WriteLine("welcome to employee payroll");
             EmployeeRepo repo = new EmployeeRepo();
-
-            
-
-            repo.UpdateEmployeeAddressUsingStoredProcedure("lokendra", "43540");
-
-
+            repo.addEmployee(employee);
         }
     }
 }

@@ -1,5 +1,6 @@
 using EmployeePayrollService;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Collections.Generic;
 using System.Transactions;
 
@@ -97,6 +98,38 @@ namespace UnitTestProject2
             Assert.AreEqual(expectedAvgMale, actualAvgMale);
         }
 
+        //UC7
+        //Addding the employee details to payments table when a employee is added to Employee_payroll
+        //     [TestMethod]
+
+        public void UpdatePayRollTableWhenAddedDataToEmployeePayRoll()
+        {
+            EmployeeRepo repo = new EmployeeRepo();
+            EmployeePayroll employee = new EmployeePayroll();
+            employee.name = "Stokes";
+            employee.startDate = Convert.ToDateTime("2018-10-01");
+            employee.gender = 'M';
+            employee.Address = "HYDERABAD";
+            employee.phoneNumber = "+91 9492227638";
+            Payments actual = repo.addEmployee(employee);
+
+
+
+            decimal expectedBasicPay = 34500;
+            decimal actualBasicSalary = actual.basicPay;
+
+            Assert.AreEqual(expectedBasicPay, actualBasicSalary);
+
+            decimal expectedNetSalary = 31450;
+            decimal actualNetSalary = actual.net_pay;
+
+            Assert.AreEqual(expectedNetSalary, actualNetSalary);
+
+
+        }
+
+
 
     }
 }
+

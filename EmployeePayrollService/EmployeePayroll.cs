@@ -39,6 +39,18 @@ namespace EmployeePayrollService
             set;
         }
 
+        public EmployeePayroll()
+        {
 
+        }
+        public EmployeePayroll(int id, string name, DateTime startDate, char gender, string address, string phoneNumber)
+        {
+            this.id = id;
+            this.name = name;
+            this.startDate = startDate;
+            this.gender = gender;
+            this.Address = address;
+            this.phoneNumber = phoneNumber;
+        }
     }
 }

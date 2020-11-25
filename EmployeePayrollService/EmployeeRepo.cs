@@ -61,10 +61,7 @@ public class EmployeeRepo
         }
     }
 
-    public Payments UpdateEmployeeSalaryUsingStoredProcedure(string v1, int v2)
-    {
-        throw new NotImplementedException();
-    }
+   
 
 
     //UC-3
@@ -150,5 +147,148 @@ public class EmployeeRepo
             connection.Close();
         }
     }
-      
-} 
+
+    //UC-6
+    public Dictionary<string, decimal> OperationOnSalaries(string query)
+    {
+        Dictionary<string, decimal> dictionary = new Dictionary<string, decimal>();
+        try
+        {
+            Payments payments = new Payments();
+            using (connection)
+            {
+
+                SqlCommand cnd = new SqlCommand(query, connection);
+                connection.Open();
+
+                SqlDataReader dr = cnd.ExecuteReader();
+
+                if (dr.HasRows)
+                {
+                    while (dr.Read())
+                    {
+                        string gender = dr.GetString(0);
+                        decimal value = dr.GetDecimal(1);
+                        dictionary.Add(gender, value);
+                        Console.WriteLine(gender + "  " + value);
+                    }
+                }
+
+                connection.Close();
+                return dictionary;
+            }
+        }
+        catch (Exception e)
+        {
+            throw new Exception(e.Message);
+        }
+        finally
+        {
+            connection.Close();
+        }
+
+
+    }
+    //UC-6
+    public void GetAllSalaries()
+    {
+        try
+        {
+            Payments payments = new Payments();
+            using (connection)
+            {
+                string query = @"select * from payments";
+                SqlCommand cnd = new SqlCommand(query, connection);
+                connection.Open();
+
+                SqlDataReader dr = cnd.ExecuteReader();
+
+                if (dr.HasRows)
+                {
+                    Console.WriteLine("Id" + " " + "Basic_pay" + " " + "Deductions" + " " + "Taxable_Pay" + " " + "Tax" + " " + "Net_pay" + "\n");
+                    while (dr.Read())
+                    {
+                        payments.id = dr.GetInt32(0);
+                        payments.basicPay = dr.GetDecimal(1);
+                        payments.deductions = dr.GetDecimal(2);
+                        payments.taxable_pay = dr.GetDecimal(3);
+                        payments.tax = dr.GetDecimal(4);
+                        payments.net_pay = dr.GetDecimal(5);
+
+
+                        Console.WriteLine(payments.id + "  " + payments.basicPay + "  " + payments.deductions + "  " + payments.taxable_pay + " " + payments.tax + "  " + payments.net_pay);
+                        Console.WriteLine("");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("No DAta found");
+                }
+                dr.Close();
+                connection.Close();
+            }
+        }
+        catch (Exception e)
+        {
+            throw new Exception(e.Message);
+        }
+        finally
+        {
+            connection.Close();
+        }
+    }
+
+    //UC-7
+    public Payments addEmployee(EmployeePayroll employee)
+    {
+        try
+        {
+
+            using (connection)
+            {
+
+                SqlCommand cnd = new SqlCommand("SpAddEmployeeDetails", connection);
+                cnd.CommandType = CommandType.StoredProcedure;
+                cnd.Parameters.AddWithValue("@EmpName", employee.name);
+                cnd.Parameters.AddWithValue("@StartDate", employee.startDate);
+                cnd.Parameters.AddWithValue("@Gender", employee.gender);
+                cnd.Parameters.AddWithValue("@Address", employee.Address);
+                cnd.Parameters.AddWithValue("@phoneNumber", employee.phoneNumber);
+                connection.Open();
+
+                var result = cnd.ExecuteReader();
+                Payments payments = new Payments();
+                if (result.HasRows)
+                {
+                    if (result.Read())
+                    {
+
+                        payments.id = result.GetInt32(0);
+                        payments.basicPay = result.GetDecimal(1);
+                        payments.deductions = result.GetDecimal(2);
+                        payments.taxable_pay = result.GetDecimal(3);
+                        payments.tax = result.GetDecimal(4);
+                        payments.net_pay = result.GetDecimal(5);
+
+                    }
+                }
+                result.Close();
+                connection.Close();
+                return payments;
+
+
+
+
+            }
+        }
+        catch (Exception e)
+        {
+            throw new Exception(e.Message);
+        }
+        finally
+        {
+            connection.Close();
+        }
+    }
+
+}

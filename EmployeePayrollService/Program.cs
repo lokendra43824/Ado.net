@@ -9,7 +9,7 @@ namespace EmployeePayrollService
             Console.WriteLine("welcome to employee payroll");
             EmployeeRepo repo = new EmployeeRepo();
 
-            //UC2 get all the employee Details
+            //UC1 connect with database
 
             string query = @"select * from Employee_payroll";
             repo.GetAllEmployee(query);

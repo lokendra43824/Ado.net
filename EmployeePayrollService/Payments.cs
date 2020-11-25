@@ -4,7 +4,38 @@ using System.Text;
 
 namespace EmployeePayrollService
 {
-    class Payments
+    public class Payments
     {
+        public int id
+        {
+            get;
+            set;
+
+        }
+        public decimal basicPay
+        {
+            get;
+            set;
+        }
+        public decimal deductions
+        {
+            get;
+            set;
+        }
+        public decimal taxable_pay
+        {
+            get;
+            set;
+        }
+        public decimal tax
+        {
+            get;
+            set;
+        }
+        public decimal net_pay
+        {
+            get;
+            set;
+        }
     }
 }

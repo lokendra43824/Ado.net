@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Text;
 
@@ -8,17 +9,17 @@ namespace EmployeePayrollService
     public class EmployeeRepo
     {
         public static string connectionString = @" Data Source=(localDB)\MSSQLLocalDB;Initial Catalog=PayRollAssignment;Integrated Security=True";
-            SqlConnection connection = new SqlConnection(connectionString);
-        public void GetAllEmployee()
+        static SqlConnection connection = new SqlConnection(connectionString);
+        public void GetAllEmployee(string query)
         {
             try
             {
                 EmployeePayroll employeePayroll = new EmployeePayroll();
-                using (this.connection)
+                using (connection)
                 {
-                    string query = @"select name,basicPay from Employee_payroll;";
-                    SqlCommand cnd = new SqlCommand(query, this.connection);
-                    this.connection.Open();
+
+                    SqlCommand cnd = new SqlCommand(query, connection);
+                    connection.Open();
 
                     SqlDataReader dr = cnd.ExecuteReader();
 
@@ -26,17 +27,14 @@ namespace EmployeePayrollService
                     {
                         while (dr.Read())
                         {
-                            //employeePayroll.EmployeeID = dr.GetInt32(0);
-                           // employeePayroll.EmployeeName = dr.GetString(1);
-                           // employeePayroll.StartDate = dr.GetDateTime(3);
-                            employeePayroll.EmployeeName = dr.GetString(0);
-                            employeePayroll.BasicPay = Convert.ToDouble(dr.GetDecimal(1));
+                            employeePayroll.id = dr.GetInt32(0);
+                            employeePayroll.name = dr.GetString(1);
+                            employeePayroll.startDate = dr.GetDateTime(2);
+                            employeePayroll.gender = Convert.ToChar(dr.GetString(3));
+                            employeePayroll.Address = dr.GetString(4);
+                            employeePayroll.phoneNumber = dr.GetString(5);
 
-                            //employeePayroll.Address = dr.GetString(6);
-                            // employeePayroll.PhoneNumber = dr.GetString(5);
-
-                            //Console.WriteLine(employeePayroll.EmployeeID + "  " + employeePayroll.EmployeeName + "  " + employeePayroll.StartDate + "  " + employeePayroll.Gender + "  " + employeePayroll.Address + "  " + employeePayroll.PhoneNumber);
-                            //Console.WriteLine(employeePayroll.EmployeeName + " " + employeePayroll.BasicPay);
+                            Console.WriteLine(employeePayroll.id + "  " + employeePayroll.name + "  " + employeePayroll.startDate + "  " + employeePayroll.gender + "  " + employeePayroll.Address + "  " + employeePayroll.phoneNumber);
                             Console.WriteLine("");
                         }
                     }
@@ -44,11 +42,90 @@ namespace EmployeePayrollService
                     {
                         Console.WriteLine("No DAta found");
                     }
+                    dr.Close();
+                    connection.Close();
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+
+        public bool addEmpoyee(EmployeePayroll employee)
+        {
+            try
+            {
+
+                using (connection)
+                {
+
+                    SqlCommand cnd = new SqlCommand("SpAddEmployeeDetails", connection);
+                    cnd.CommandType = CommandType.StoredProcedure;
+                    cnd.Parameters.AddWithValue("@EmpName", employee.name);
+                    cnd.Parameters.AddWithValue("@StartDate", employee.startDate);
+                    cnd.Parameters.AddWithValue("@Gender", employee.gender);
+                    cnd.Parameters.AddWithValue("@Address", employee.Address);
+                    cnd.Parameters.AddWithValue("@phoneNumber", employee.phoneNumber);
+                    connection.Open();
+
+                    var result = cnd.ExecuteNonQuery();
+                    connection.Close();
+
+                    if (result != 0)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+
 
                 }
             }
-          
-       
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+
+        public Payments UpdateEmployeeSalary()
+        {
+            try
+            {
+
+                using (connection)
+                {
+                    Payments payments = new Payments();
+                    string query = @"update payments set payments.net_pay=43500 from payments p inner join Employee_payroll e on p.id=e.id where e.name='karan' ";
+                    SqlCommand cnd = new SqlCommand(query, connection);
+                    connection.Open();
+
+
+                    var result = cnd.ExecuteNonQuery();
+                    connection.Close();
+
+                    if (result != 0)
+                    {
+                        payments.net_pay = 43500;
+                        Console.WriteLine("Updated Successfully");
+                    }
+                    else
+                    {
+                        Console.WriteLine("No record found for the given firstName");
+                    }
+                    return payments;
+                }
+            }
             catch (Exception e)
             {
                 throw new Exception(e.Message);

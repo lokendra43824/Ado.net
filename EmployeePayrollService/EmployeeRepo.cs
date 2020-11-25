@@ -1,5 +1,6 @@
 ﻿using EmployeePayrollService;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 
@@ -10,15 +11,15 @@ public class EmployeeRepo
 
 
     // UC-2
-    public void GetAllEmployee(string query)
+    public List<EmployeePayroll> GetAllEmployee(string query)
     {
         try
         {
-            EmployeePayroll employeePayroll = new EmployeePayroll();
+            List<EmployeePayroll> list = new List<EmployeePayroll>();
+
             using (connection)
             {
 
-                // string query= @"select* from Employee_payroll where start_Date between CAST('2019-01-01' as date) and GETDATE()";
                 SqlCommand cnd = new SqlCommand(query, connection);
                 connection.Open();
 
@@ -28,6 +29,7 @@ public class EmployeeRepo
                 {
                     while (dr.Read())
                     {
+                        EmployeePayroll employeePayroll = new EmployeePayroll();
                         employeePayroll.id = dr.GetInt32(0);
                         employeePayroll.name = dr.GetString(1);
                         employeePayroll.startDate = dr.GetDateTime(2);
@@ -37,6 +39,7 @@ public class EmployeeRepo
 
                         Console.WriteLine(employeePayroll.id + "  " + employeePayroll.name + "  " + employeePayroll.startDate + "  " + employeePayroll.gender + "  " + employeePayroll.Address + "  " + employeePayroll.phoneNumber);
                         Console.WriteLine("");
+                        list.Add(employeePayroll);
                     }
                 }
                 else
@@ -45,6 +48,7 @@ public class EmployeeRepo
                 }
                 dr.Close();
                 connection.Close();
+                return list;
             }
         }
         catch (Exception e)
@@ -56,6 +60,12 @@ public class EmployeeRepo
             connection.Close();
         }
     }
+
+    public Payments UpdateEmployeeSalaryUsingStoredProcedure(string v1, int v2)
+    {
+        throw new NotImplementedException();
+    }
+
 
     //UC-3
 

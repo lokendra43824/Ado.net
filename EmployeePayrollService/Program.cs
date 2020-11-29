@@ -25,6 +25,7 @@ namespace EmployeePayrollService
 
 
             repo.UpdateEmployeeSalary();
+            repo.UpdateEmployeeSalaryUsingStoredProcedure("lokendra", 50000);
 
 
 

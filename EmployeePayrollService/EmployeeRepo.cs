@@ -10,7 +10,6 @@ public class EmployeeRepo
     static SqlConnection connection = new SqlConnection(connectionString);
 
 
-    // UC-2
     public List<EmployeePayroll> GetAllEmployee(string query)
     {
         try
@@ -61,13 +60,7 @@ public class EmployeeRepo
         }
     }
 
-    public Payments UpdateEmployeeSalaryUsingStoredProcedure(string v1, int v2)
-    {
-        throw new NotImplementedException();
-    }
 
-
-    //UC-3
 
     public Payments UpdateEmployeeSalary()
     {
@@ -77,7 +70,7 @@ public class EmployeeRepo
             using (connection)
             {
                 Payments payments = new Payments();
-                string query = @"update payments set payments.net_pay=43500 from payments p inner join Employee_payroll e on p.id=e.id where e.name='lokendra' ";
+                string query = @"update payments set payments.net_pay=43500 from payments p inner join Employee_payroll e on p.id=e.id where e.name='Dhoni' ";
                 SqlCommand cnd = new SqlCommand(query, connection);
                 connection.Open();
 
@@ -109,34 +102,33 @@ public class EmployeeRepo
     }
 
 
-    //UC-4
-
-    public bool UpdateEmployeeAddressUsingStoredProcedure(string name, string salary)
+    public Payments UpdateEmployeeSalaryUsingStoredProcedure(string name, double salary)
     {
         try
         {
 
+
             using (connection)
             {
-
-                SqlCommand cnd = new SqlCommand("spUpdateSalary", connection);
+                Payments payments = new Payments();
+                SqlCommand cnd = new SqlCommand("sp_UpdateSalary", connection);
                 cnd.CommandType = CommandType.StoredProcedure;
                 cnd.Parameters.AddWithValue("@salary", salary);
                 cnd.Parameters.AddWithValue("@name", name);
 
                 connection.Open();
+                SqlDataReader dr = cnd.ExecuteReader();
 
-                var result = cnd.ExecuteNonQuery();
+
+                if (dr.HasRows)
+                {
+                    while (dr.Read())
+                    {
+                        payments.net_pay = dr.GetDecimal(1);
+                    }
+                }
                 connection.Close();
-
-                if (result != 0)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
+                return payments;
 
 
             }
@@ -150,5 +142,97 @@ public class EmployeeRepo
             connection.Close();
         }
     }
-      
-} 
+    public Payments addEmployee(EmployeePayroll employee)
+    {
+        try
+        {
+
+            using (connection)
+            {
+
+                SqlCommand cnd = new SqlCommand("SpAddEmployeeDetails", connection);
+                cnd.CommandType = CommandType.StoredProcedure;
+                cnd.Parameters.AddWithValue("@EmpName", employee.name);
+                cnd.Parameters.AddWithValue("@StartDate", employee.startDate);
+                cnd.Parameters.AddWithValue("@Gender", employee.gender);
+                cnd.Parameters.AddWithValue("@Address", employee.Address);
+                cnd.Parameters.AddWithValue("@phoneNumber", employee.phoneNumber);
+                connection.Open();
+
+                var result = cnd.ExecuteReader();
+                Payments payments = new Payments();
+                if (result.HasRows)
+                {
+                    if (result.Read())
+                    {
+
+                        payments.id = result.GetInt32(0);
+                        payments.basicPay = result.GetDecimal(1);
+                        payments.deductions = result.GetDecimal(2);
+                        payments.taxable_pay = result.GetDecimal(3);
+                        payments.tax = result.GetDecimal(4);
+                        payments.net_pay = result.GetDecimal(5);
+
+                    }
+                }
+                result.Close();
+                connection.Close();
+                return payments;
+
+
+
+
+            }
+        }
+        catch (Exception e)
+        {
+            throw new Exception(e.Message);
+        }
+        finally
+        {
+            connection.Close();
+        }
+    }
+    public Dictionary<string, decimal> OperationOnSalaries(string query)
+    {
+        Dictionary<string, decimal> dictionary = new Dictionary<string, decimal>();
+        try
+        {
+            Payments payments = new Payments();
+            using (connection)
+            {
+
+                SqlCommand cnd = new SqlCommand(query, connection);
+                connection.Open();
+
+                SqlDataReader dr = cnd.ExecuteReader();
+
+                if (dr.HasRows)
+                {
+                    while (dr.Read())
+                    {
+                        string gender = dr.GetString(0);
+                        decimal value = dr.GetDecimal(1);
+                        dictionary.Add(gender, value);
+                        Console.WriteLine(gender + "  " + value);
+                    }
+                }
+
+                connection.Close();
+                return dictionary;
+            }
+        }
+        catch (Exception e)
+        {
+            throw new Exception(e.Message);
+        }
+        finally
+        {
+            connection.Close();
+        }
+
+
+    }
+
+
+}

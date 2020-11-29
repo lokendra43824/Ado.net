@@ -24,6 +24,8 @@ namespace EmployeePayrollService
             employee.phoneNumber = "+91 9866528888";
 
 
+            repo.UpdateEmployeeSalaryUsingStoredProcedure("Karan", 43540);
+
 
 
 

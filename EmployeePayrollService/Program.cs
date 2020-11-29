@@ -23,8 +23,6 @@ namespace EmployeePayrollService
             employee.Address = "KARNATAKA";
             employee.phoneNumber = "+91 9866528888";
 
-            //  repo.addEmpoyee(employee);
-
             //Update Salary of an employee using Sql Query
 
             repo.UpdateEmployeeSalary();

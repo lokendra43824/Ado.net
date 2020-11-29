@@ -56,48 +56,7 @@ namespace EmployeePayrollService
             }
         }
 
-        public bool addEmpoyee(EmployeePayroll employee)
-        {
-            try
-            {
-
-                using (connection)
-                {
-
-                    SqlCommand cnd = new SqlCommand("SpAddEmployeeDetails", connection);
-                    cnd.CommandType = CommandType.StoredProcedure;
-                    cnd.Parameters.AddWithValue("@EmpName", employee.name);
-                    cnd.Parameters.AddWithValue("@StartDate", employee.startDate);
-                    cnd.Parameters.AddWithValue("@Gender", employee.gender);
-                    cnd.Parameters.AddWithValue("@Address", employee.Address);
-                    cnd.Parameters.AddWithValue("@phoneNumber", employee.phoneNumber);
-                    connection.Open();
-
-                    var result = cnd.ExecuteNonQuery();
-                    connection.Close();
-
-                    if (result != 0)
-                    {
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
-
-
-                }
-            }
-            catch (Exception e)
-            {
-                throw new Exception(e.Message);
-            }
-            finally
-            {
-                connection.Close();
-            }
-        }
-
+     
         public Payments UpdateEmployeeSalary()
         {
             try

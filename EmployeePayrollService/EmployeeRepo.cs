@@ -95,8 +95,49 @@ namespace EmployeePayrollService
 
             }
         }
+        public decimal UpdateEmployeeSalaryUsingStoredProcedure(string name, double salary)
+        {
+            try
+            {
+                decimal sal = 0;
+
+                using (connection)
+                {
+
+                    SqlCommand cnd = new SqlCommand("sp_UpdateSalary", connection);
+                    cnd.CommandType = CommandType.StoredProcedure;
+                    cnd.Parameters.AddWithValue("@salary", salary);
+                    cnd.Parameters.AddWithValue("@name", name);
+
+                    connection.Open();
+                    SqlDataReader dr = cnd.ExecuteReader();
+                    // var result = cnd.ExecuteNonQuery();
+
+                    if (dr.HasRows)
+                    {
+                        while (dr.Read())
+                        {
+                            sal = dr.GetDecimal(1);
+                        }
+                    }
+                    connection.Close();
+                    return sal;
 
 
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
     }
+
+
 }
+
         
